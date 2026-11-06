@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <title>Fleet Readiness</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">Fleet Readiness</div>
+    <button class="btn btn-ghost btn-sm" id="syncBtn" type="button">Sync from TMS</button>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h1>Truck readiness.</h1>
+      <p>Inspect, photograph and assign every truck before it leaves the yard.</p>
+    </section>
+
+    <section class="stats" id="stats" aria-live="polite"></section>
+
+    <div class="section-head">
+      <h2>Fleet</h2>
+      <span class="muted small" id="fleetCount"></span>
+    </div>
+    <section class="grid" id="trucks">
+      <div class="card"><span class="spinner" aria-label="Loading"></span></div>
+    </section>
+
+    <section class="two-col">
+      <div class="card">
+        <h2>Drivers</h2>
+        <form id="driverForm" class="row" style="margin-top:16px" autocomplete="off">
+          <input class="input" name="name" placeholder="Full name" required aria-label="Driver name">
+          <input class="input" name="phone" placeholder="Phone" aria-label="Phone">
+          <button class="btn" type="submit">Add driver</button>
+        </form>
+        <ul class="list" id="drivers"></ul>
+      </div>
+
+      <div class="card">
+        <h2>Telegram</h2>
+        <p class="muted" style="margin-top:8px">Click <strong>Link code</strong> next to a driver. Share the 6-digit code; the driver sends <code>/link CODE</code> to your bot. Then they can use <code>/status</code> and <code>/inspect</code>.</p>
+        <div id="linkResult" style="margin-top:16px"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

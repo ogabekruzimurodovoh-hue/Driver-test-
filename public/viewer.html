@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <title>Truck 360° view</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="btn btn-ghost btn-sm" href="/" id="homeLink" aria-label="Back to fleet">‹ Fleet</a>
+    <div class="topbar-title" id="title">360° view</div>
+    <div id="status"></div>
+  </header>
+
+  <main class="wrap narrow">
+    <section class="viewer-card" style="margin-top:16px" aria-label="Truck viewer">
+      <div class="viewer-tabs" role="tablist">
+        <button type="button" role="tab" aria-selected="true" data-tab="exterior">Exterior</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="interior">Cab &amp; sleeper</button>
+      </div>
+
+      <div id="exterior" role="tabpanel">
+        <div class="stage" id="exteriorStage" tabindex="0" aria-label="Drag left or right to rotate the truck. Use arrow keys to step."></div>
+        <div class="viewer-controls">
+          <div class="dots" id="dots" role="group" aria-label="Jump to side"></div>
+          <button type="button" class="btn btn-ghost" id="spinBtn" aria-pressed="false">Auto-rotate</button>
+        </div>
+      </div>
+
+      <div id="interior" role="tabpanel" class="hidden">
+        <div class="stage" id="interiorStage" tabindex="0" aria-label="Swipe left or right to view interior photos"></div>
+        <div class="viewer-controls">
+          <button type="button" class="btn btn-ghost" id="prevInt">‹ Prev</button>
+          <div class="muted small" id="intLabel" style="color:#a1a1a6"></div>
+          <button type="button" class="btn btn-ghost" id="nextInt">Next ›</button>
+        </div>
+        <div class="thumbs" id="intThumbs"></div>
+      </div>
+    </section>
+
+    <section class="card" id="info" style="margin-top:16px">
+      <span class="spinner" aria-label="Loading"></span>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/viewer.js"></script>
+</body>
+</html>

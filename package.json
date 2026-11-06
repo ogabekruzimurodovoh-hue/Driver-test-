@@ -1,0 +1,16 @@
+{
+  "name": "fleet-readiness",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Truck readiness inspections with photo capture, 360 viewer, TMS sync and Telegram driver bot",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server/index.js",
+    "dev": "node --watch --disable-warning=ExperimentalWarning server/index.js",
+    "test": "node --test --disable-warning=ExperimentalWarning test/*.test.js",
+    "set-webhook": "node scripts/set-webhook.js"
+  }
+}
