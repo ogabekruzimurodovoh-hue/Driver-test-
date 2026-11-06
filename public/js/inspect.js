@@ -109,16 +109,29 @@
   }
 
   function renderPhotos() {
-    const { photoSlots, requiredPhotos } = state.config;
+    const { photoSlots, requiredPhotos, photoGroups } = state.config;
     const missing = missingPhotos().length;
     const notice = missing
       ? `<div class="notice warn">${missing} required photo${missing > 1 ? 's' : ''} missing.</div>`
       : '<div class="notice good">All required photos are saved.</div>';
+    const saved = photoGroups.reduce((n, g) => n + g.slots.filter((s) => state.data.photos[s]).length, 0);
+    const total = photoGroups.reduce((n, g) => n + g.slots.length, 0);
+    const groups = photoGroups.map((g) => `
+      <section style="margin-top:24px">
+        <div class="row" style="justify-content:space-between;align-items:baseline">
+          <h3>${esc(g.title)}</h3>
+          <span class="muted small">${g.slots.filter((s) => state.data.photos[s]).length} / ${g.slots.length}</span>
+        </div>
+        <p class="muted small" style="margin-top:4px">${esc(g.hint)}</p>
+        <div class="photo-grid">
+          ${g.slots.map((slot) => photoTile(slot, photoSlots[slot], requiredPhotos.includes(slot))).join('')}
+        </div>
+      </section>`).join('');
     return `
-      <div style="margin-top:16px">${notice}</div>
-      <div class="photo-grid">
-        ${Object.entries(photoSlots).map(([slot, label]) => photoTile(slot, label, requiredPhotos.includes(slot))).join('')}
-      </div>`;
+      <div style="margin-top:16px">${notice}
+        <p class="muted small" style="margin-top:8px">${saved} of ${total} photos saved. Taking all 12 walk-around shots gives the smoothest 360° view.</p>
+      </div>
+      ${groups}`;
   }
 
   function renderChecklist() {

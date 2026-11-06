@@ -5,12 +5,7 @@
   const id = new URLSearchParams(location.search).get('id');
   const $ = (sel) => document.querySelector(sel);
 
-  const EXTERIOR = [
-    { slot: 'front', label: 'Front' },
-    { slot: 'right', label: 'Right side' },
-    { slot: 'rear', label: 'Rear' },
-    { slot: 'left', label: 'Left side' },
-  ];
+  let EXTERIOR = [];
   const INTERIOR = [
     { slot: 'interior_dash', label: 'Dashboard' },
     { slot: 'interior_cab', label: 'Driver seat' },
@@ -103,7 +98,8 @@
     if (!ext.drag) return;
     const dx = e.clientX - ext.drag.x;
     // One full side ≈ 60% of the stage width.
-    ext.pos = ext.drag.pos - dx / (stage.clientWidth * 0.6);
+    // Roughly one photo per 1/6 of the stage width.
+    ext.pos = ext.drag.pos - dx / (stage.clientWidth / 6);
     paint();
   });
   const endDrag = () => {
@@ -227,7 +223,8 @@
       return;
     }
     try {
-      const d = await api(`/api/inspections/${id}`);
+      const [d, cfg] = await Promise.all([api(`/api/inspections/${id}`), api('/api/config')]);
+      EXTERIOR = cfg.exteriorRing;
       buildExterior(d);
       buildInterior(d);
       renderInfo(d);

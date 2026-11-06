@@ -79,16 +79,38 @@ export const CHECKLIST = [
   },
 ];
 
-// Photo slots. The four sides + dashboard + driver seat are required.
-export const PHOTO_SLOTS = {
-  front: 'Front',
-  right: 'Right side',
-  rear: 'Rear',
-  left: 'Left side',
+// 360° walk-around: 12 photos, one every 30°, clockwise from the front.
+// The four sides (0°, 90°, 180°, 270°) are required; the other eight are optional.
+export const EXTERIOR_RING = [
+  { slot: 'front', angle: 0, label: 'Front (0°)' },
+  { slot: 'ang_030', angle: 30, label: 'Front-right (30°)' },
+  { slot: 'ang_060', angle: 60, label: '60°' },
+  { slot: 'right', angle: 90, label: 'Right side (90°)' },
+  { slot: 'ang_120', angle: 120, label: '120°' },
+  { slot: 'ang_150', angle: 150, label: 'Rear-right (150°)' },
+  { slot: 'rear', angle: 180, label: 'Rear (180°)' },
+  { slot: 'ang_210', angle: 210, label: 'Rear-left (210°)' },
+  { slot: 'ang_240', angle: 240, label: '240°' },
+  { slot: 'left', angle: 270, label: 'Left side (270°)' },
+  { slot: 'ang_300', angle: 300, label: '300°' },
+  { slot: 'ang_330', angle: 330, label: 'Front-left (330°)' },
+];
+
+const INTERIOR_SLOTS = {
   interior_dash: 'Dashboard',
   interior_cab: 'Driver seat',
   interior_sleeper: 'Sleeper (optional)',
 };
+
+export const PHOTO_SLOTS = {
+  ...Object.fromEntries(EXTERIOR_RING.map((p) => [p.slot, p.label])),
+  ...INTERIOR_SLOTS,
+};
+
+export const PHOTO_GROUPS = [
+  { title: '360° walk-around', hint: '12 photos, one every 30°. The four sides are required.', slots: EXTERIOR_RING.map((p) => p.slot) },
+  { title: 'Cab interior', hint: 'Dashboard and driver seat are required.', slots: Object.keys(INTERIOR_SLOTS) },
+];
 
 export const REQUIRED_PHOTOS = ['front', 'right', 'rear', 'left', 'interior_dash', 'interior_cab'];
 

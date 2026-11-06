@@ -41,3 +41,16 @@ test('checklist item keys are unique', () => {
   const keys = allItems().map((i) => i.key);
   assert.equal(new Set(keys).size, keys.length);
 });
+
+test('360 walk-around has 12 photos at 30° steps, with the four sides required', async () => {
+  const { EXTERIOR_RING, PHOTO_GROUPS, REQUIRED_PHOTOS, PHOTO_SLOTS } = await import('../server/checklist.js');
+  assert.equal(EXTERIOR_RING.length, 12);
+  assert.deepEqual(EXTERIOR_RING.map((p) => p.angle), [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]);
+  const ringSlots = EXTERIOR_RING.map((p) => p.slot);
+  assert.equal(new Set(ringSlots).size, 12);
+  for (const s of ['front', 'right', 'rear', 'left']) {
+    assert.ok(ringSlots.includes(s) && REQUIRED_PHOTOS.includes(s));
+  }
+  assert.equal(PHOTO_GROUPS[0].slots.length, 12);
+  for (const s of ringSlots) assert.ok(PHOTO_SLOTS[s], `label for ${s}`);
+});

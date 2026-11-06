@@ -255,7 +255,11 @@ export function createService({ db, dataDir, publicUrl, tms, notifier, log = con
     }
     if (notifier.dispatchChatId) {
       await safe(() => notifier.sendMessage(notifier.dispatchChatId, `${summary}\nReport: ${reportUrl(d.id)}`), log, 'dispatch notice');
-      await safe(() => notifier.sendPhotos(notifier.dispatchChatId, photoFiles(d.id), `Truck ${d.truck.unit} · inspection #${d.id}`), log, 'dispatch photos');
+      // Telegram albums hold at most 10 photos, so send the set in chunks.
+      const files = photoFiles(d.id);
+      for (let i = 0; i < files.length; i += 10) {
+        await safe(() => notifier.sendPhotos(notifier.dispatchChatId, files.slice(i, i + 10), `Truck ${d.truck.unit} · inspection #${d.id}`), log, 'dispatch photos');
+      }
     }
   }
 

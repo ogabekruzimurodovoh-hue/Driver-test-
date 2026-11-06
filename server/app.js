@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { CHECKLIST, PHOTO_SLOTS, REQUIRED_PHOTOS } from './checklist.js';
+import { CHECKLIST, EXTERIOR_RING, PHOTO_GROUPS, PHOTO_SLOTS, REQUIRED_PHOTOS } from './checklist.js';
 import { httpError, safeEqual } from './util.js';
 
 const PUBLIC_DIR = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'public');
@@ -46,6 +46,8 @@ export function createApp({ config, service, telegram, log = console }) {
   add('GET', '/api/config', async () => ({
     checklist: CHECKLIST,
     photoSlots: PHOTO_SLOTS,
+    photoGroups: PHOTO_GROUPS,
+    exteriorRing: EXTERIOR_RING,
     requiredPhotos: REQUIRED_PHOTOS,
     tmsEnabled: service.tmsEnabled,
     telegramEnabled: telegram.enabled,
